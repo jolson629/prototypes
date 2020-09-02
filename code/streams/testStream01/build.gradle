@@ -1,0 +1,39 @@
+group 'com.ual.kafka.streams'
+ext.archivesBaseName = 'test-stream01'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+
+    compile deps.KafkaLibrary
+    compile deps.jcommander
+    compile deps.log4j
+
+
+
+    //testCompile deps.junit
+
+    // Declare the dependency for your favourite test framework you want to use in your tests.
+    // TestNG is also supported by the Gradle Test task. Just change the
+    // testCompile dependency to testCompile 'org.testng:testng:6.8.1' and add
+    // 'test.useTestNG()' to your build script.
+}
+
+task run(type:JavaExec) {
+    main = 'com.ual.kafka.streams.StreamTest01'
+    classpath sourceSets.main.runtimeClasspath
+    args "@./resources/testStream01.properties"
+}
+
+jar {
+    zip64 true
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA', 'core-site.xml', 'hive-site.xml', 'hdfs-site.xml'
+    manifest {
+        attributes 'Main-Class': 'com.ual.kafka.streams.StreamTest01'
+    }
+}

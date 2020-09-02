@@ -1,0 +1,43 @@
+group 'com.ual.orc'
+ext.archivesBaseName = 'test-writehiveorc01'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+
+    compile deps.jcommander
+    compile deps.log4j
+    compile deps.scalaLibrary
+    compile deps.sparkCore
+    compile deps.sparkSQL
+    compile deps.sparkHive
+    compile deps.teradataJDBC
+    compile deps.teradataConfig
+
+
+    //testCompile deps.junit
+
+    // Declare the dependency for your favourite test framework you want to use in your tests.
+    // TestNG is also supported by the Gradle Test task. Just change the
+    // testCompile dependency to testCompile 'org.testng:testng:6.8.1' and add
+    // 'test.useTestNG()' to your build script.
+}
+
+task run(type:JavaExec) {
+    main = 'com.ual.orc.TestWriteHiveOrc01'
+    classpath sourceSets.main.runtimeClasspath
+    args "@./resources/testWriteHiveOrc01.properties"
+}
+
+jar {
+    zip64 true
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA', 'core-site.xml', 'hive-site.xml', 'hdfs-site.xml'
+    manifest {
+        attributes 'Main-Class': 'com.ual.orc.TestWriteHiveOrc01'
+    }
+}

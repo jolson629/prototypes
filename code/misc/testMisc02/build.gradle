@@ -1,0 +1,35 @@
+group 'com.ual.teradata.misc'
+ext.archivesBaseName = 'test-misc02'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+
+    compile deps.log4j
+    compile deps.scalaLibrary
+
+    //testCompile deps.junit
+
+    // Declare the dependency for your favourite test framework you want to use in your tests.
+    // TestNG is also supported by the Gradle Test task. Just change the
+    // testCompile dependency to testCompile 'org.testng:testng:6.8.1' and add
+    // 'test.useTestNG()' to your build script.
+}
+
+task run(type:JavaExec) {
+    main = 'com.ual.teradata.misc.MiscTest02'
+    classpath sourceSets.main.runtimeClasspath
+}
+
+jar {
+    zip64 true
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
+    manifest {
+        attributes 'Main-Class': 'com.ual.teradata.Misc.MiscTest02'
+    }
+}

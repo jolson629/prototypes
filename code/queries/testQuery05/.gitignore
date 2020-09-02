@@ -1,0 +1,8 @@
+/build/
+/metastore_db/
+/resources/testQuery05.properties
+/resources/spark-submit.sh
+/src/main/resources/core-site.xml
+/src/main/resources/hdfs-site.xml
+/src/main/resources/hive-site.xml
+derby.log
